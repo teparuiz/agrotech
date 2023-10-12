@@ -4,24 +4,29 @@ import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
 import { handleError, handleSucess } from "../../config/utils";
 import Link from "next/link";
+import { HTTP } from "@/config/http";
+import { useRouter } from "next/router";
 
 const Login = (props) => {
-  const { isLogged, setIsLogged } = props;
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [token, setToken] = useState("");
 
   const login = () => {
-    const storedEmail = localStorage.getItem("email");
-    const storedPassword = localStorage.getItem("password");
-
-    const itsLogin = email === storedEmail && password === storedPassword;
-    if (itsLogin) {
-      setIsLogged(true);
-      navigate("/");
-      handleSucess("Inicio de sesión exitoso");
-    } else {
-      handleError("Revisa los datos que son incorrectos");
-    }
+    HTTP("POST", "https://dummyjson.com/auth/login", {
+      username: "kminchelle",
+      password: "0lelplR",
+    })
+      .then((response) => {
+        setToken(response.token);
+        if (token) {
+          router.push("/products");
+        }
+      })
+      .catch((error) => {
+        handleError("Ha sucedido un error, revisa tu información por favor");
+      });
   };
 
   return (

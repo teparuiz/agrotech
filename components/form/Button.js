@@ -9,7 +9,7 @@ const Button = (props) => {
     disabled = false,
   } = props;
   return (
-    <div className="flex mt-4">
+    <div className="d-flex">
       <button
         type="submit"
         className={className}
