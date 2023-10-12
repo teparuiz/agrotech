@@ -2,20 +2,28 @@ import { HTTP } from "@/config/http";
 import { handleError, handleSucess } from "@/config/utils";
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
+import Input from "../form/Input";
 const ModalAdd = (props) => {
-  const { title = "", visible, onClose, data } = props;
+  const { visible, onClose, data } = props;
 
   const [isEdit, setIsEdit] = useState(false);
+
+  const [title, setTitle] = useState("");
 
   const _send = () => {
     HTTP(
       `${isEdit ? "PUT" : "POST"}`,
-      `https://dummyjson.com/products/${isEdit ? props.data.id : "add"}`
+      `https://dummyjson.com/products/${isEdit ? props.data.id : "add"}`,
+      {
+        title,
+      }
     )
       .then((res) => {
         onClose(res);
         handleSucess(
-          `El producto se ha ${isEdit ? "actualizado" : "añadido"} con exito`
+          `El ${res.title} se ha ${
+            isEdit ? "actualizado" : "añadido"
+          } con exito`
         );
       })
       .catch((err) =>
@@ -31,6 +39,14 @@ const ModalAdd = (props) => {
     }
   }, [props.data]);
 
+  useEffect(() => {
+    if (isEdit) {
+      setTitle("iPhone Galaxy +1");
+    } else {
+      setTitle("BMW Pencil");
+    }
+  }, [isEdit]);
+
   return (
     <div>
       <Modal className="modal-container" show={visible} onHide={onClose}>
@@ -41,7 +57,9 @@ const ModalAdd = (props) => {
             </div>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body></Modal.Body>
+        <Modal.Body>
+          <Input name='Título del producto' value={title} onChange={setTitle} placeholder="Producto" />
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={_send}>
             {isEdit ? "Actualizar" : "Añadir"}

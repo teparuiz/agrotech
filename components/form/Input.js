@@ -1,5 +1,5 @@
 import React from "react";
-
+import style from "../../styles/input.module.css";
 const Input = (props) => {
   const {
     type = "",
@@ -16,6 +16,9 @@ const Input = (props) => {
   };
   return (
     <div className="flex flex-col mb-4">
+      <p className={style.input}>
+        <b>{name}</b>
+      </p>
       <input
         type={type}
         name={name}

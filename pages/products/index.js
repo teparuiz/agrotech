@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import CollapseTable from "../../components/Collapse/CollapseTable";
 import { HTTP } from "../../config/http";
 import { handleError, currency } from "@/config/utils";
 import Button from "@/components/form/Button";
@@ -41,7 +40,7 @@ const Products = (props) => {
 
   if (isLoading) return <Spinner />;
   return (
-    <div className="container">
+    <div className="container mt-5">
       <h1> Lista de Productos</h1>
       <div className="d-flex justify-content-end mb-2">
         <Button
@@ -54,7 +53,7 @@ const Products = (props) => {
         <thead>
           <tr className="table-success">
             <th>Producto</th>
-            <th width='300px'>Descripción</th>
+            <th width="600px">Descripción</th>
             <th>Precio</th>
             <th>Acciones</th>
           </tr>
@@ -68,14 +67,14 @@ const Products = (props) => {
               <td>
                 <button
                   onClick={() => setRemove({ visible: true, data: i })}
-                  className="btn btn-danger"
+                  className="btn"
                 >
                   <i className="material-icons">delete</i>
                 </button>
 
                 <button
                   onClick={() => setVisible({ visible: true, data: i })}
-                  className="btn btn-primary"
+                  className="btn"
                 >
                   <i className="material-icons">edit</i>
                 </button>

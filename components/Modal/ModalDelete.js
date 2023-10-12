@@ -7,7 +7,12 @@ const ModalDelete = (props) => {
 
   const _remove = () => {
     HTTP("DELETE", `https://dummyjson.com/products/${data.id}`)
-      .then((res) => {handleSucess("El producto se ha eliminado con exito"); onClose(res)})
+      .then((res) => {
+        handleSucess(
+          `El producto se ha eliminado con exito la fecha del ${res.deletedOn}`
+        );
+        onClose(res);
+      })
       .catch((err) => handleError("Hubo un error al eliminar el producto"));
   };
 
@@ -21,12 +26,10 @@ const ModalDelete = (props) => {
         </Modal.Header>
         <Modal.Footer>
           <Button variant="btn btn-danger" onClick={_remove}>
-            {" "}
-            Eliminar{" "}
+            Eliminar
           </Button>
           <Button variant="secondary" onClick={onClose}>
-            {" "}
-            Cerrar{" "}
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>

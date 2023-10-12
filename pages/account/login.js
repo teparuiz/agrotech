@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "../../styles/login.module.css";
 import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
@@ -9,20 +9,19 @@ import { useRouter } from "next/router";
 
 const Login = (props) => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("kminchelle");
+  const [password, setPassword] = useState("0lelplR");
   const [token, setToken] = useState("");
 
   const login = () => {
     HTTP("POST", "https://dummyjson.com/auth/login", {
-      username: "kminchelle",
-      password: "0lelplR",
+      username,
+      password,
     })
       .then((response) => {
         setToken(response.token);
-        if (token) {
-          router.push("/products");
-        }
+        handleSucess("Sesión iniciada con éxito");
+        router.push("/products");
       })
       .catch((error) => {
         handleError("Ha sucedido un error, revisa tu información por favor");
@@ -33,52 +32,43 @@ const Login = (props) => {
     <div className={style.login}>
       <div className="flex flex-col w-full max-w-md text-center">
         <div className="self-center mb-6 text-xl font-light text-black sm:text-2xl dark:text-white">
-          <h1> Registro </h1>
+          <h1> Iniciar sesión </h1>
         </div>
 
         <div className="mt-2">
-          <form autoComplete="off">
-            <div className="flex flex-col mb-4">
-              <div className="col-6">
-                <Input
-                  type="email"
-                  name="Correo"
-                  value={email}
-                  onChange={setEmail}
-                  placeholder="Escribe tu correo electrónico"
-                  pattern=".+@globex\.com"
-                  required={true}
-                />
-              </div>
-            </div>
-            <div className="flex flex-col mb-4">
-              <div className="col-6">
-                {" "}
-                <Input
-                  type="password"
-                  name="Contraseña"
-                  placeholder="Escribe tu contraseña"
-                  onChange={setPassword}
-                  value={password}
-                  required={true}
-                />
-              </div>
-            </div>
-            <div
-              className="flex mt-
-            4"
-            >
-              <Button
-                onClick={login}
-                name="Iniciar sesión"
-                icon="login"
-                className="btn btn-secondary"
+          <div className="flex flex-col mb-4">
+            <div className="col-6">
+              <Input
+                type="text"
+                name="Usuario"
+                value={username}
+                onChange={setUsername}
+                placeholder="Escribe tu nombre de usuario"
               />
-              <div>
-                <Link href="/account/register">¿No tienes una cuenta?</Link>
-              </div>
             </div>
-          </form>
+          </div>
+          <div className="flex flex-col mb-4">
+            <div className="col-6">
+              <Input
+                type="password"
+                name="Contraseña"
+                placeholder="Escribe tu contraseña"
+                onChange={setPassword}
+                value={password}
+              />
+            </div>
+          </div>
+          <div
+            className="flex mt-
+            4"
+          >
+            <Button
+              onClick={login}
+              name="Iniciar sesión"
+              icon="login"
+              className="btn btn-secondary"
+            />
+          </div>
         </div>
       </div>
     </div>

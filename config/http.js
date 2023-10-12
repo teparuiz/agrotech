@@ -9,16 +9,21 @@ export const HTTP = (
   accessToken = false
 ) => {
   return new Promise((resolve, reject) => {
-    api({
+    const axiosConfig = {
       method: method,
-      url: `${url}`,
-      [method === "POST" ? "data" : "params"]: {
-        ...data,
-      },
+      url: url,
       headers: {
         Authorization: accessToken,
       },
-    })
+    };
+
+    if (method === "GET" || method === "DELETE") {
+      axiosConfig.params = data;
+    } else {
+      axiosConfig.data = data;
+    }
+
+    api(axiosConfig)
       .then(({ data }) => {
         return resolve(data);
       })
